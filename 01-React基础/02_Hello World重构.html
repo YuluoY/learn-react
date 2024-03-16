@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./lib/react.development.js"></script>
+    <script src="./lib/react-dom.development.js"></script>
+    <script src="./lib/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       *  类组件
+       */
+      class App extends React.Component {
+        constructor(props) {
+          super(props);
+
+          this.state = {
+            text: "Hello, React!",
+          };
+
+          // 解决方法一
+          // this.handleChangeText = this.handleChangeText.bind(this);
+        }
+
+        handleChangeText() {
+          console.log(this); // undefined
+          this.setState({
+            text: "Hello, React Hooks!",
+          });
+        }
+
+        // 解决方法二
+        // handleChangeText = () => {
+        //   this.setState({
+        //     text: "Hello, React Hooks!",
+        //   });
+        // };
+
+        render() {
+          return (
+            <div>
+              <h1>{this.state.text}</h1>
+              {/* 解决方法三 */}
+              <button onClick={this.handleChangeText.bind(this)}>
+                修改文本
+              </button>
+            </div>
+          );
+        }
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

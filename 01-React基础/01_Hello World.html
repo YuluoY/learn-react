@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- react核心代码 -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+
+    <!-- 渲染react dom -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+
+    <!-- 将jsx转换成js 以及将es6转换成es5 前端编译器 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       *  react16+ 的写法
+       */
+      // ReactDOM.render(<h1>Hello, React!</h1>, document.getElementById("root"));
+
+      /**
+       * react18 的hooks写法
+       */
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      let text = "Hello, React!";
+      function handleChangeText() {
+        text = "Hello, React Hooks!";
+        root.render(<h1>{text}</h1>);
+      }
+      root.render(
+        <div>
+          <h1>{text}</h1>
+          <button onClick={handleChangeText}>
+            修改文本
+          </button>
+        </div>
+      );
+    </script>
+  </body>
+</html>
