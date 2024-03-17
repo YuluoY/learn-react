@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>购物车案例</title>
+    <script src="./lib/react.development.js"></script>
+    <script src="./lib/react-dom.development.js"></script>
+    <script src="./lib/babel.min.js"></script>
+
+    <script src="./data/bookData.js"></script>
+
+    <style>
+      table td,
+      table th {
+        padding: 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      class App extends React.Component {
+        /**
+         * 书籍最小数量
+         */
+        MIN_COUNT = 1;
+
+        constructor(props) {
+          super(props);
+
+          this.state = {
+            bookData: props.books,
+          };
+        }
+
+        handleChangeCount(index, count) {
+          const { bookData } = this.state;
+          bookData[index].count = count;
+          this.setState({
+            bookData: bookData,
+          });
+        }
+
+        handleRemoveBook(index) {
+          const { bookData } = this.state;
+          bookData.splice(index, 1);
+          this.setState({
+            bookData,
+          });
+        }
+
+        getTotalPrice() {
+          const { bookData } = this.state;
+          return bookData.reduce(
+            (pre, item) => pre + item.price * item.count,
+            0
+          );
+        }
+
+        formatPrice(price) {
+          if (price === undefined || price === null) return "";
+          price = +price;
+          return "￥" + price.toFixed(2);
+        }
+
+        renderBookList() {
+          return (
+            <table
+              border="1"
+              cellSpacing="0"
+              cellPadding="0"
+              align="center"
+              width="600px"
+            >
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>书籍名称</th>
+                  <th>出版日期</th>
+                  <th>价格</th>
+                  <th>购买数量</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.bookData.map((item, index) => {
+                  return (
+                    <tr key={item.name}>
+                      <td>{index + 1}</td>
+                      <td>{item.name}</td>
+                      <td>{item.date}</td>
+                      <td>{this.formatPrice(item.price)}</td>
+                      <td>
+                        <button
+                          disabled={item.count <= this.MIN_COUNT}
+                          onClick={() =>
+                            this.handleChangeCount(index, item.count - 1)
+                          }
+                        >
+                          -
+                        </button>
+                        <span>{item.count}</span>
+                        <button
+                          onClick={() =>
+                            this.handleChangeCount(index, item.count + 1)
+                          }
+                        >
+                          +
+                        </button>
+                      </td>
+                      <td>
+                        <button onClick={() => this.handleRemoveBook(index)}>
+                          移除
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr>
+                  <td colSpan="6">
+                    总价：
+                    {this.formatPrice(this.getTotalPrice())}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          );
+        }
+
+        renderBookEmpty() {
+          return (
+            <div>
+              <h1>暂无上架书籍！</h1>
+            </div>
+          );
+        }
+
+        render() {
+          return (
+            <div
+              style={{ width: "100%", margin: "0 auto", textAlign: "center" }}
+            >
+              {this.state.bookData.length
+                ? this.renderBookList()
+                : this.renderBookEmpty()}
+            </div>
+          );
+        }
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App books={books} />);
+    </script>
+  </body>
+</html>
