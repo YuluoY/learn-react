@@ -1,5 +1,5 @@
 import { Component } from "react";
-import HelloWorld from "./components/HelloWorld";
+import LifeCycle from "./components/LifeCycle";
 
 export default class App extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="app">
-        <HelloWorld />
+        <LifeCycle />
       </div>
     );
   }
