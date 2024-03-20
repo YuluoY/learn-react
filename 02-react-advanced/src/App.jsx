@@ -1,5 +1,5 @@
 import { Component } from "react";
-import LifeCycle from "./components/LifeCycle";
+import Test from "./02-类型/Test";
 
 export default class App extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="app">
-        <LifeCycle />
+        <Test message="你好呀" age={18}/>
       </div>
     );
   }
